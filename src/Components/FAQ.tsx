@@ -1,151 +1,186 @@
-import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
+"use client";
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Container,
+  Grid,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { motion } from "framer-motion";
 
-export default function FAQ() {
-  const [expanded, setExpanded] = React.useState<string | false>(false);
-  
-  const handleChange =
-  (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
+const faqs = [
+  {
+    id: "faq1",
+    question: "How do I contact customer support if I have a question or issue?",
+    answer:
+      "You can reach our customer support team by emailing support@email.com...",
+  },
+  {
+    id: "faq2",
+    question: "Can I return the product if it doesn't meet my expectations?",
+    answer:
+      "Absolutely! We offer a hassle-free return policy. If you're not completely satisfied...",
+  },
+  {
+    id: "faq3",
+    question: "What makes your product stand out from others in the market?",
+    answer:
+      "Our product distinguishes itself through its adaptability, durability, and innovative features...",
+  },
+  {
+    id: "faq4",
+    question: "Is there a warranty on the product, and what does it cover?",
+    answer:
+      "Yes, our product comes with a [length of warranty] warranty. It covers defects in materials...",
+  },
+];
+
+export default function FAQCards() {
+  // Removed unused variable 'selectedFAQId'
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const navigate=useNavigate();
+
+  // Renamed parameter from 'id' to '_id' to indicate it's unused.
+  const handleOpenDialog = (_id: string) => {
+    alert("Please sign up to see the full answer.");
+    setOpenDialog(true);
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   return (
-    <Container
-      id="faq"
-      sx={{
-        pt: { xs: 4, sm: 12 },
-        pb: { xs: 8, sm: 16 },
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: { xs: 3, sm: 6 },
-      }}
-    >
-      <Typography
-        component="h2"
-        variant="h4"
+    <>
+      <Box
+        component="section"
         sx={{
-          color: 'text.primary',
-          width: { sm: '100%', md: '60%' },
-          textAlign: { sm: 'left', md: 'center' },
+          width: "100%",
+          backgroundColor: "#000", // Black background
+          borderTop: "4px solid #1e1e1e", // Thin horizontal line at the top
+          color: "#fff",
         }}
       >
-        Frequently asked questions
-      </Typography>
-      <Box sx={{ width: '100%' }}>
-        <Accordion
-          expanded={expanded === 'panel1'}
-          onChange={handleChange('panel1')}
+        <Container
+          id="faq"
+          sx={{
+            pt: { xs: 4, sm: 12 },
+            pb: { xs: 8, sm: 16 },
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1d-content"
-            id="panel1d-header"
+          {/* Header Section */}
+          <Typography
+            component="h2"
+            variant="h4"
+            sx={{
+              textAlign: "center",
+              fontWeight: "bold",
+              mb: 4,
+            }}
           >
-            <Typography component="h3" variant="subtitle2">
-              How do I contact customer support if I have a question or issue?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
-            >
-              You can reach our customer support team by emailing
-              <Link> support@email.com </Link>
-              or calling our toll-free number. We&apos;re here to assist you
-              promptly.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === 'panel2'}
-          onChange={handleChange('panel2')}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2d-content"
-            id="panel2d-header"
-          >
-            <Typography component="h3" variant="subtitle2">
-              Can I return the product if it doesn&apos;t meet my expectations?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
-            >
-              Absolutely! We offer a hassle-free return policy. If you&apos;re not
-              completely satisfied, you can return the product within [number of
-              days] days for a full refund or exchange.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === 'panel3'}
-          onChange={handleChange('panel3')}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3d-content"
-            id="panel3d-header"
-          >
-            <Typography component="h3" variant="subtitle2">
-              What makes your product stand out from others in the market?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
-            >
-              Our product distinguishes itself through its adaptability, durability,
-              and innovative features. We prioritize user satisfaction and
-              continually strive to exceed expectations in every aspect.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === 'panel4'}
-          onChange={handleChange('panel4')}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel4d-content"
-            id="panel4d-header"
-          >
-            <Typography component="h3" variant="subtitle2">
-              Is there a warranty on the product, and what does it cover?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
-            >
-              Yes, our product comes with a [length of warranty] warranty. It covers
-              defects in materials and workmanship. If you encounter any issues
-              covered by the warranty, please contact our customer support for
-              assistance.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
+            Frequently Asked Questions
+          </Typography>
+
+          {/* FAQ Cards */}
+          <Grid container spacing={3}>
+            {faqs.map((faq) => (
+              <Grid item xs={12} sm={6} md={3} key={faq.id}>
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card
+                    sx={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      p: 3,
+                      backgroundColor: "#1e1e1e", // Dark grey card background
+                      borderRadius: "16px",
+                      border: "1px solid #2c2c2c",
+                      boxShadow: 3,
+                      transition: "transform 0.3s, box-shadow 0.3s",
+                      "&:hover": {
+                        boxShadow:
+                          "10px 10px 20px rgba(0,0,0,0.7), -10px -10px 20px rgba(0,0,0,0.7)",
+                        transform: "translateY(-5px)",
+                      },
+                    }}
+                  >
+                    <CardContent>
+                      <Typography
+                        variant="subtitle1"
+                        component="h3"
+                        gutterBottom
+                        sx={{ fontWeight: "medium", color: "#fff" }}
+                      >
+                        {faq.question}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: "#ccc", // Light grey for the answer text
+                          overflow: "hidden",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: "vertical",
+                        }}
+                      >
+                        {faq.answer}
+                      </Typography>
+                    </CardContent>
+                    <Button
+                      onClick={() => handleOpenDialog(faq.id)}
+                      size="small"
+                      sx={{
+                        mt: 1,
+                        textTransform: "none",
+                        color: "#3b82f6", // Accent color for button text
+                        "&:hover": {
+                          color: "#06b6d4",
+                        },
+                      }}
+                    >
+                      Read More
+                    </Button>
+                  </Card>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
       </Box>
-    </Container>
+
+      {/* Dialog for Sign Up */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Sign Up Required</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            To see the full answer, please sign up for an account.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button variant="contained" onClick={() => navigate('/signup')}>
+            Sign Up
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

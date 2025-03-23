@@ -1,121 +1,159 @@
-import * as React from 'react';
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Container,
-  Grid,
-} from '@mui/material';
+import React, { useState } from "react";
+import { 
+  Box, Typography, Grid, Card, CardContent, CardActions, Button, 
+  Container, Dialog, DialogTitle, DialogContent, DialogActions 
+} from "@mui/material";
 
 const blogPosts = [
   {
-    id: 1,
-    title: 'Mastering React: Tips and Tricks',
-    description:
-      'React is a powerful JavaScript library for building user interfaces. In this post, we will explore...',
-    content:
-      'React is a powerful JavaScript library for building user interfaces. In this post, we will explore some of the best tips and tricks to optimize your React applications, improve performance, and write clean code.',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZX5V66Hzf2YxB1yNxrhk1uqXUwj4-ZCsbJ65x-CQa4YYZ8hZOGQxoPac&s',
+    title: "The Future of Web Development",
+    date: "August 25, 2024",
+    summary: "Explore the latest trends in web development and how they are shaping the future.",
   },
   {
-    id: 2,
-    title: 'Understanding TypeScript with React',
-    description:
-      'TypeScript is becoming the go-to language for React development. Let’s take a deep dive into...',
-    content:
-      'TypeScript is becoming the go-to language for React development. Let’s take a deep dive into how TypeScript improves type safety, enhances code readability, and helps catch bugs early.',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwSabVkBm2MtDdp20avKK-DYVlj05J1hDBQ7CAxH6zKrPdJ4MY3ygzsMw&s',
+    title: "Why React is Dominating Frontend",
+    date: "July 12, 2024",
+    summary: "A deep dive into why React continues to be the most popular frontend framework.",
   },
   {
-    id: 3,
-    title: 'State Management in React with Redux',
-    description:
-      'Managing state in a large-scale React application can be tricky. Learn how Redux simplifies state...',
-    content:
-      'Managing state in a large-scale React application can be tricky. Learn how Redux simplifies state management and helps create predictable state transitions in your React apps.',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9nT_jXPLbbirVvNQCq1uE44PR-pBULk_ZzgcXJPfSW0scjFdxoRFy-MI&s',
+    title: "Building Scalable Applications",
+    date: "June 30, 2024",
+    summary: "Learn best practices for creating scalable and efficient web applications.",
   },
 ];
 
-export default function Blog() {
-  const [expandedPost, setExpandedPost] = React.useState<number | null>(null);
+const Blog: React.FC = () => {
+  const [open, setOpen] = useState(false);
 
-  const handleToggle = (id: number) => {
-    setExpandedPost(expandedPost === id ? null : id);
+  const handleReadMore = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
-    <Container
+    <Box
       id="blog"
       sx={{
-        pt: { xs: 4, sm: 12 },
-        pb: { xs: 8, sm: 16 },
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 4,
+        pt: 12,
+        mt: 12, 
+        backgroundColor: "#000",                // Solid black background
+        borderTop: "4px solid #1e1e1e",         // Thin top border
+        color: "#ffffff",
+        py: 10,
+        px: 2,
+        minHeight: "100vh",
       }}
     >
-      <Typography
-        component="h2"
-        variant="h4"
+      <Box textAlign="center" mb={5}>
+        <Typography variant="h3" fontWeight="bold" color="#e2e8f0">
+          Blog
+        </Typography>
+        <Typography variant="subtitle1" color="#94a3b8">
+          Stay updated with the latest articles and insights.
+        </Typography>
+      </Box>
+
+      <Container maxWidth="lg">
+        <Grid container spacing={4} justifyContent="center">
+          {blogPosts.map((post, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card
+                sx={{
+                  height: "100%",
+                  backgroundColor: "#1e293b",
+                  color: "#e2e8f0",
+                  boxShadow: "none",
+                  borderRadius: 3,
+                  transition: "transform 0.3s ease, background-color 0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-5px)",
+                    backgroundColor: "#334155",
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    {post.title}
+                  </Typography>
+                  <Typography variant="caption" color="#94a3b8">
+                    {post.date}
+                  </Typography>
+                  <Typography variant="body2" color="#cbd5e1" mt={1}>
+                    {post.summary}
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ p: 2 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{
+                      borderRadius: 2,
+                      textTransform: "none",
+                      fontWeight: "bold",
+                      backgroundColor: "#2563eb",
+                      "&:hover": { backgroundColor: "#1d4ed8" },
+                    }}
+                    onClick={handleReadMore}
+                  >
+                    Read More
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      <Dialog 
+        open={open} 
+        onClose={handleClose} 
         sx={{
-          textAlign: 'center',
-          fontWeight: 'bold',
-          color: 'text.primary',
-          mb: 4,
+          "& .MuiPaper-root": {
+            backgroundColor: "#1e293b", 
+            color: "#e2e8f0",
+            borderRadius: 2,
+          },
         }}
       >
-        Latest Blogs
-      </Typography>
-
-      <Grid container spacing={3}>
-        {blogPosts.map((post) => (
-          <Grid item xs={12} sm={6} md={4} key={post.id}>
-            <Card
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                boxShadow: 3,
-                transition: 'transform 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-5px)',
-                },
-              }}
-            >
-              <CardMedia
-                component="img"
-                height="140"
-                image={post.image}
-                alt={post.title}
-              />
-              <CardContent>
-                <Typography variant="h6" component="h3" gutterBottom>
-                  {post.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" paragraph>
-                  {expandedPost === post.id
-                    ? post.content
-                    : `${post.description.substring(0, 80)}...`}
-                </Typography>
-                <Button
-                  onClick={() => handleToggle(post.id)}
-                  size="small"
-                  sx={{
-                    mt: 1,
-                    color: 'primary.main',
-                    textTransform: 'none',
-                  }}
-                >
-                  {expandedPost === post.id ? 'Read Less' : 'Read More'}
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+        <DialogTitle fontWeight="bold" color="#e2e8f0">
+          Sign Up Required
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" color="#cbd5e1">
+            To read the full article, please sign up for an account.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleClose}
+            sx={{
+              color: "#94a3b8",
+              "&:hover": { backgroundColor: "#334155" },
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => alert("Redirecting to Sign Up Page...")}
+            sx={{
+              backgroundColor: "#2563eb",
+              "&:hover": { backgroundColor: "#1d4ed8" },
+              fontWeight: "bold",
+            }}
+          >
+            Sign Up
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
-}
+};
+
+export default Blog;

@@ -12,6 +12,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import XIcon from '@mui/icons-material/X';
 
 function Copyright() {
+  
   return (
     <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
       {'Copyright © '}
@@ -28,10 +29,17 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: 'background.default',
-        borderTop: '1px solid',
-        borderColor: 'divider',
-        py: { xs: 6, sm: 10 },
+        // Move the entire section up by 40px
+        mt: "-40px",
+        // Add 40px top padding so your content doesn't get cut off
+        pt: "80px",
+    
+        backgroundColor: "#000",
+        color: "#ffffff",
+        minHeight: "100vh",
+    
+        // The horizontal line
+        borderTop: "4px solid #1e1e1e",
       }}
     >
       <Container>

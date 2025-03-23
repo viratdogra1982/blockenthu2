@@ -10,6 +10,8 @@ import {
 
 import LandingPage from './Pages/Home/Home';
 import AppTheme from './Components/Theme/App/AppTheme';
+import SignUp from './Components/signup';
+import SignIn from './Components/signin';
 
 
 function App() {
@@ -53,6 +55,20 @@ function App() {
       element: (
         <PublicRoute>
          <LandingPage />
+        </PublicRoute>
+      ),
+    },{
+      path: '/signup',
+      element: (
+        <PublicRoute>
+         <SignUp/>
+        </PublicRoute>
+      ),
+    },{
+      path: '/signin',
+      element: (
+        <PublicRoute>
+         <SignIn/>
         </PublicRoute>
       ),
     },

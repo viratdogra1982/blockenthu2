@@ -1,218 +1,287 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import Chip from '@mui/material/Chip';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+'use client';
 
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import * as React from "react";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Divider,
+  Typography,
+  Button,
+  Container,
+  Grid,
+  Box,
+  Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
 const tiers = [
   {
-    title: 'Free',
-    price: '0',
+    title: "Free",
+    price: "0",
     description: [
-      '10 users included',
-      '2 GB of storage',
-      'Help center access',
-      'Email support',
+      "10 users included",
+      "2 GB of storage",
+      "Help center access",
+      "Email support",
     ],
-    buttonText: 'Sign up for free',
-    buttonVariant: 'outlined',
-    buttonColor: 'primary',
+    buttonText: "Sign up for free",
+    buttonVariant: "outlined",
+    buttonColor: "primary",
   },
   {
-    title: 'Professional',
-    subheader: 'Recommended',
-    price: '15',
+    title: "Professional",
+    subheader: "Recommended",
+    price: "15",
     description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
-      'Dedicated team',
-      'Best deals',
+      "20 users included",
+      "10 GB of storage",
+      "Help center access",
+      "Priority email support",
+      "Dedicated team",
+      "Best deals",
     ],
-    buttonText: 'Start now',
-    buttonVariant: 'contained',
-    buttonColor: 'secondary',
+    buttonText: "Start now",
+    buttonVariant: "contained",
+    buttonColor: "secondary",
   },
   {
-    title: 'Enterprise',
-    price: '30',
+    title: "Enterprise",
+    price: "30",
     description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
+      "50 users included",
+      "30 GB of storage",
+      "Help center access",
+      "Phone & email support",
     ],
-    buttonText: 'Contact us',
-    buttonVariant: 'outlined',
-    buttonColor: 'primary',
+    buttonText: "Contact us",
+    buttonVariant: "outlined",
+    buttonColor: "primary",
   },
 ];
 
 export default function Pricing() {
+  const [openPricingDialog, setOpenPricingDialog] = React.useState(false);
+
+  const handleStartNow = () => {
+    alert("Please sign up to start now");
+    setOpenPricingDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenPricingDialog(false);
+  };
+
   return (
-    <Container
+    <Box
       id="pricing"
       sx={{
         pt: { xs: 6, sm: 12 },
         pb: { xs: 8, sm: 16 },
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: { xs: 3, sm: 6 },
+        // Dark background to match FAQ boxes
+        bgcolor: "#000",
+        color: "white",
+        borderTop: (theme) =>
+          `4px solid ${theme.palette.mode === "light" ? "#e0e0e0" : "#333"}`,
       }}
     >
-      {/* Header Section */}
-      <Box
+      <Container
         sx={{
-          textAlign: 'center',
-          mb: 4,
-          width: { sm: '100%', md: '60%' },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: { xs: 3, sm: 6 },
         }}
       >
-        <Typography
-          component="h2"
-          variant="h3"
-          fontWeight={700}
-          gutterBottom
-          sx={{ color: 'text.primary' }}
+        {/* Header Section */}
+        <Box
+          sx={{
+            width: { xs: "90%", md: "60%" },
+            textAlign: "center",
+            mb: 4,
+            mx: "auto",
+          }}
         >
-          Flexible Pricing Plans
-        </Typography>
-        <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-          Choose the plan that fits your needs and upgrade anytime to unlock premium features.
-        </Typography>
-      </Box>
-
-      {/* Pricing Cards */}
-      <Grid container spacing={4} justifyContent="center">
-        {tiers.map((tier) => (
-          <Grid
-            item
-            xs={12}
-            sm={tier.title === 'Enterprise' ? 12 : 6}
-            md={4}
-            key={tier.title}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <Card
+            <Typography
+              component="h2"
+              variant="h4"
+              fontWeight={700}
+              gutterBottom
               sx={{
-                p: 4,
-                borderRadius: 4,
-                boxShadow: tier.title === 'Professional' ? '0px 8px 24px rgba(0,0,0,0.12)' : '0px 4px 12px rgba(0,0,0,0.08)',
-                transition: 'all 0.3s ease',
-                backgroundColor:
-                  tier.title === 'Professional' ? 'linear-gradient(135deg, #1d3557 0%, #457b9d 100%)' : 'background.paper',
-                color: tier.title === 'Professional' ? '#fff' : 'inherit',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: '0px 12px 36px rgba(0,0,0,0.2)',
-                },
+                color: "white",
+                letterSpacing: "0.5px",
               }}
             >
-              <CardContent>
-                {/* Title + Badge */}
-                <Box
+              Flexible Pricing Plans
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "grey.400",
+                maxWidth: "600px",
+                mx: "auto",
+              }}
+            >
+              Choose the plan that fits your needs and upgrade anytime to unlock premium
+              features.
+            </Typography>
+          </motion.div>
+        </Box>
+
+        {/* Pricing Cards */}
+        <Grid container spacing={4} justifyContent="center">
+          {tiers.map((tier, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={tier.title === "Enterprise" ? 12 : 6}
+              md={4}
+              key={tier.title}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.2 }}
+              >
+                <Card
                   sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    mb: 2,
+                    p: 3,
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    // Slightly lighter dark background for the card
+                    backgroundColor: "#1e1e1e",
+                    borderRadius: "16px",
+                    boxShadow:
+                      "6px 6px 12px rgba(0,0,0,0.5), -6px -6px 12px rgba(0,0,0,0.5)",
+                    transition: "transform 0.3s, box-shadow 0.3s",
+                    "&:hover": {
+                      boxShadow:
+                        "10px 10px 20px rgba(0,0,0,0.7)",
+                    },
+                    color: "#fff",
                   }}
                 >
-                  <Typography component="h3" variant="h5" fontWeight={600}>
-                    {tier.title}
-                  </Typography>
-                  {tier.title === 'Professional' && (
-                    <Chip
-                      icon={<AutoAwesomeIcon />}
-                      label={tier.subheader}
-                      size="small"
+                  <CardContent>
+                    {/* Title & Optional Badge */}
+                    <Box
                       sx={{
-                        color: '#fff',
-                        backgroundColor: '#e63946',
-                      }}
-                    />
-                  )}
-                </Box>
-
-                {/* Price */}
-                <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 2 }}>
-                  <Typography component="h2" variant="h3" fontWeight={700}>
-                    ${tier.price}
-                  </Typography>
-                  <Typography
-                    component="h3"
-                    variant="h6"
-                    sx={{
-                      ml: 0.5,
-                      color: tier.title === 'Professional' ? 'grey.200' : 'text.secondary',
-                    }}
-                  >
-                    / month
-                  </Typography>
-                </Box>
-
-                <Divider sx={{ my: 2 }} />
-
-                {/* Features */}
-                {tier.description.map((line) => (
-                  <Box
-                    key={line}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      py: 0.5,
-                    }}
-                  >
-                    <CheckCircleRoundedIcon
-                      sx={{
-                        fontSize: 20,
-                        color: tier.title === 'Professional' ? 'success.light' : 'primary.main',
-                      }}
-                    />
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: tier.title === 'Professional' ? 'grey.300' : 'text.primary',
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 2,
                       }}
                     >
-                      {line}
-                    </Typography>
-                  </Box>
-                ))}
-              </CardContent>
+                      <Typography component="h3" variant="h5" fontWeight={600}>
+                        {tier.title}
+                      </Typography>
+                      {tier.title === "Professional" && (
+                        <Chip
+                          icon={<AutoAwesomeIcon />}
+                          label={tier.subheader}
+                          size="small"
+                          sx={{
+                            color: "#fff",
+                            backgroundColor: "#e63946",
+                          }}
+                        />
+                      )}
+                    </Box>
 
-              {/* Button */}
-              <CardActions>
-                <Button
-                  fullWidth
-                  variant={tier.buttonVariant as 'outlined' | 'contained'}
-                  color={tier.buttonColor as 'primary' | 'secondary'}
-                  sx={{
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      boxShadow: tier.buttonVariant === 'contained' ? '0px 8px 16px rgba(0,0,0,0.3)' : '0px 4px 12px rgba(0,0,0,0.2)',
-                    },
-                  }}
-                >
-                  {tier.buttonText}
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+                    {/* Price */}
+                    <Box sx={{ display: "flex", alignItems: "baseline", mb: 2 }}>
+                      <Typography component="h2" variant="h3" fontWeight={700}>
+                        ${tier.price}
+                      </Typography>
+                      <Typography
+                        component="h3"
+                        variant="h6"
+                        sx={{
+                          ml: 0.5,
+                          color: "#ccc",
+                        }}
+                      >
+                        / month
+                      </Typography>
+                    </Box>
+
+                    <Divider sx={{ my: 2, borderColor: "#444" }} />
+
+                    {/* Features */}
+                    {tier.description.map((line) => (
+                      <Box key={line} sx={{ display: "flex", gap: 1.5, py: 0.5 }}>
+                        <CheckCircleRoundedIcon
+                          sx={{
+                            fontSize: 20,
+                            color: "#4caf50",
+                          }}
+                        />
+                        <Typography variant="body2" sx={{ color: "#ccc" }}>
+                          {line}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </CardContent>
+
+                  {/* Action Button */}
+                  <CardActions>
+                    <Button
+                      fullWidth
+                      variant={tier.buttonVariant as "outlined" | "contained"}
+                      color={tier.buttonColor as "primary" | "secondary"}
+                      sx={{
+                        borderRadius: 2,
+                        fontWeight: 600,
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          boxShadow:
+                            tier.buttonVariant === "contained"
+                              ? "0px 8px 16px rgba(0,0,0,0.3)"
+                              : "0px 4px 12px rgba(0,0,0,0.2)",
+                        },
+                      }}
+                      onClick={
+                        tier.title === "Professional" ? handleStartNow : undefined
+                      }
+                    >
+                      {tier.buttonText}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      {/* Pricing Dialog */}
+      <Dialog open={openPricingDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Sign Up Required</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            To start using our Professional plan, please sign up for an account.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button variant="contained" onClick={() => alert("Redirecting to Sign Up Page...")}>
+            Sign Up
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }

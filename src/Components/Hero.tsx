@@ -1,169 +1,114 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import InputLabel from '@mui/material/InputLabel';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { visuallyHidden } from '@mui/utils';
-import { styled } from '@mui/material/styles';
-import Spline from '@splinetool/react-spline';
-
-const StyledBox = styled('div')(({ theme }) => ({
-  alignSelf: 'center',
-  width: '100%',
-  height: 400,
-  marginTop: theme.spacing(8),
-  borderRadius: 16, // Rounded corners for modern look
-  border: '1px solid',
-  borderColor: theme.palette.divider,
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-  overflow: 'hidden',
-  backgroundSize: 'cover',
-  transition: 'transform 0.3s ease',
-
-  '&:hover': {
-    transform: 'scale(1.02)', // Smooth hover effect
-  },
-
-  [theme.breakpoints.up('sm')]: {
-    marginTop: theme.spacing(10),
-    height: 600,
-  },
-}));
+import { useState } from "react";
+import { Box, Button, Container, Stack, TextField, Typography } from "@mui/material";
+import { motion } from "framer-motion";
 
 export default function Hero() {
+  const [email, setEmail] = useState(""); // State to track email input
+
+  const handleClick = () => {
+    if (!email) {
+      alert("Please enter your email!"); // Alert if email is empty
+      return;
+    }
+    console.log("User Email:", email);
+    alert(`Welcome! We'll contact you at ${email}`);
+    // You can also navigate or trigger an API call here
+  };
+
   return (
     <Box
-      id="hero"
-      sx={(theme) => ({
-        width: '100%',
-        backgroundRepeat: 'no-repeat',
-        backgroundImage:
-          'radial-gradient(ellipse 100% 50% at 50% -20%, hsl(210, 80%, 96%), transparent)',
-        ...theme.applyStyles('dark', {
-          backgroundImage:
-            'radial-gradient(ellipse 100% 50% at 50% -20%, hsl(210, 40%, 20%), transparent)',
-        }),
-      })}
+      sx={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        // Black background
+        backgroundColor: "#000000",
+        // Thin horizontal line at the top
+        borderTop: "4px solid #1e1e1e",
+      }}
     >
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          pt: { xs: 14, sm: 20 },
-          pb: { xs: 8, sm: 12 },
-        }}
-      >
-        {/* Heading */}
+      <Container maxWidth="md">
         <Stack
-          spacing={3}
-          useFlexGap
-          sx={{
-            alignItems: 'center',
-            width: { xs: '100%', sm: '70%' },
-          }}
+          spacing={5}
+          alignItems="center"
+          textAlign="center"
+          component={motion.div}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
           <Typography
             variant="h1"
             sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              alignItems: 'center',
-              fontSize: 'clamp(2.5rem, 8vw, 4rem)',
-              fontWeight: 'bold',
-              textAlign: 'center',
-              color: 'text.primary',
+              fontSize: { xs: "2.5rem", md: "3.5rem" },
+              fontWeight: "bold",
+              color: "#ffffff",
+              textTransform: "uppercase",
             }}
           >
-            Our&nbsp;latest&nbsp;
-            <Typography
-              component="span"
-              variant="h1"
-              sx={(theme) => ({
-                fontSize: 'inherit',
-                color: theme.palette.primary.main,
-                fontWeight: 'bold',
-                ...theme.applyStyles('dark', {
-                  color: theme.palette.primary.light,
-                }),
-              })}
-            >
-              Super Exchange
-            </Typography>
+            The Future of Crypto Exchange
           </Typography>
 
-          {/* Description */}
           <Typography
             sx={{
-              textAlign: 'center',
-              color: 'text.secondary',
-              width: { sm: '100%', md: '80%' },
-              fontSize: '1.1rem',
-              lineHeight: 1.6,
+              fontSize: "1.2rem",
+              color: "#cbd5e1",
+              maxWidth: "600px",
             }}
           >
-            We are a transparent cryptocurrency exchange offering lightning-fast crypto buying and selling services, enhanced by seamless chain abstraction capabilities, ensuring smooth transactions across multiple blockchains for a superior user experience.
+            Fast, Secure, and Limitless Trading. Your gateway to the decentralized future.
           </Typography>
 
-          {/* Email Input and Button */}
+          {/* Email Input & CTA Button */}
           <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={1.5}
-            useFlexGap
-            sx={{ pt: 2, width: { xs: '100%', sm: '400px' } }}
+            direction={{ xs: "column", sm: "row" }}
+            gap={2}
+            sx={{
+              width: "100%",
+              maxWidth: "500px",
+              alignItems: "center",
+              flexGrow: 0,
+            }}
           >
-            <InputLabel htmlFor="email-hero" sx={visuallyHidden}>
-              Email
-            </InputLabel>
             <TextField
-              id="email-hero"
-              hiddenLabel
+              placeholder="Enter your email"
+              fullWidth
               size="medium"
               variant="outlined"
-              aria-label="Enter your email address"
-              placeholder="Your email address"
-              fullWidth
-              InputProps={{
-                sx: {
-                  borderRadius: '8px',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{
+                background: "rgba(255, 255, 255, 0.1)",
+                borderRadius: "10px",
+                input: { color: "#ffffff", padding: "12px" },
+                boxShadow: "none",
+                "& fieldset": { border: "none" },
+                "& .MuiOutlinedInput-root": {
+                  background: "transparent",
+                  "&:hover fieldset": { border: "none" },
+                  "&.Mui-focused fieldset": { border: "none" },
                 },
               }}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              size="medium"
-              sx={{
-                minWidth: 'fit-content',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
-                '&:hover': {
-                  backgroundColor: 'primary.dark',
-                },
-              }}
-            >
-              Start Now
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={handleClick}
+                sx={{
+                  background: "linear-gradient(90deg, #3b82f6, #06b6d4)",
+                  fontWeight: "bold",
+                  borderRadius: "10px",
+                  px: 4,
+                }}
+              >
+                Get Started
+              </Button>
+            </motion.div>
           </Stack>
-
-          {/* Caption */}
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: 'center', mt: 1 }}
-          >
-            Register now to get <strong>$50 worth of rewards</strong>.
-          </Typography>
         </Stack>
-
-        {/* Spline Animation */}
-        <StyledBox id="image">
-          <Spline scene="https://prod.spline.design/uqQX7OKE6JBelAcD/scene.splinecode" />
-        </StyledBox>
       </Container>
     </Box>
   );
